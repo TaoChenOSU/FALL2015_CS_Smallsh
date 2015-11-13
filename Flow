@@ -1,0 +1,15 @@
+1. prompt
+	~":"
+2. read command
+	~command name
+	~arguments
+	~input/output re-direction
+	~foreground/background
+	~built-in command: exit, cd, status	
+	~?comment
+3. identify command
+	~go throught $PATH to see if a certain program exists
+4. execute command
+	~fork()/exec()
+5. check if any sub-process has finished
+	~waitpid()
