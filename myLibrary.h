@@ -17,6 +17,6 @@ struct argument{
 	int ground;			//fore:0; back:1; error:-1
 };
 
-argument inputAnalyzer(char *userInput);
+void inputAnalyzer(char *userInput, struct argument *myArgu);
 
-childStatus myFork(argument myArgu);
+struct childStatus myFork(struct argument myArgu);

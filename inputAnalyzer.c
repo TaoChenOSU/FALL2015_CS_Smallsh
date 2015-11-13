@@ -7,13 +7,15 @@
 //return NULL
 */
 
-#include <myLibrary.h>
+#include "myLibrary.h"
 
-void inputAnalyzer(char *userInput, argument *myArgu){
+void inputAnalyzer(char *userInput, struct argument *myArgu){
 	int argc=0;
 	int i=0;
 	char **args;
-	char *token
+	char *token;
+	char backup[1024];
+	strcpy(backup, userInput);
 	
 	//comment
 	if(userInput[0]=='#'){
@@ -30,20 +32,25 @@ void inputAnalyzer(char *userInput, argument *myArgu){
 		}
 
 		args=malloc(sizeof(char*)*argc);
+		for(i=0; i<argc; i++){
+			args[i]=malloc(sizeof(char)*150);
+		}		
 
-		token=strtok(userInput, " ");
+		token=strtok(backup, " ");
 		strcpy(args[0], token);
-		for(i=1; i<argc, i++){
+		
+		for(i=1; i<argc; i++){
 			token=strtok(NULL, " ");
 			strcpy(args[i], token);
 		}
-		if(args[i-1]=='&'){
+
+		if(args[i-1]=="&"){
 			myArgu->ground=1;
 			args[i-1]=NULL;
-			strcpy(myArgu->args, args);
+			myArgu->args=args;
 		}else{
-			myArgu.ground=0;
-			strcpy(myArgu->args, args);
+			myArgu->ground=0;
+			myArgu->args=args;
 		}
 	}else{
 		myArgu->ground=-1;

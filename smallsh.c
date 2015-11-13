@@ -3,22 +3,22 @@
 //main program
 */
 
-#include <myLibrary.h>
+#include "myLibrary.h"
 
 int main(){
 	char userInput[50];
-	argument myArgu;
-	childStatus status; 
+	struct argument myArgu;
+	struct childStatus child; 
 		
 
 	do{
 		fprintf(stdout, ": ");
 		fgets(userInput, 50, stdin);
 		userInput[strlen(userInput)-1]='\0';
-		inputAnalyzer(userInput, &myArgu);
-				
-		status=myFork(myArgu);
-	}while(
+		inputAnalyzer(userInput, &myArgu);		
+		child=myFork(myArgu);
+		fprintf(stdout, "PID=%d\n", child.pid);
+	}while(child.status!=4);
 
 	return 0;	
 }
