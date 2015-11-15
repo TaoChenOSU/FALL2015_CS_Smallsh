@@ -13,11 +13,15 @@ int main(){
 	pid_t bgProcess;
 
 	do{
-		bgProcess = waitpid(-1, &status, WNOHANG);
-		if(bgProcess != 0 && bgProcess != -1){
-			fflush(stdout);
-			fprintf(stdout, "Process %d has finished with status:\n", bgProcess);
-			displayStatus(status);	
+		while(1){
+			bgProcess = waitpid(WAIT_ANY, &status, WNOHANG | WUNTRACED);
+			if(bgProcess != 0 && bgProcess != -1){
+				fflush(stdout);
+				fprintf(stdout, "Process %d has finished with status:\n", bgProcess);
+				displayStatus(status);	
+			}else{
+				break;			
+			}
 		}
 		fprintf(stdout, ": ");
 		fgets(userInput, 50, stdin);

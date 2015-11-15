@@ -22,3 +22,5 @@ void inputAnalyzer(char *userInput, struct argument *myArgu);
 struct childStatus myFork(struct argument myArgu);
 
 void changeDir(struct argument myArgu);
+
+void displayStatus(int status);
