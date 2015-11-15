@@ -11,8 +11,10 @@ int main(){
 	struct childStatus child; 
 	int status;						//status of the last child process
 	pid_t bgProcess;
+	int i;							//counter
 
 	do{
+		//check any stopped or terminated bg processes
 		while(1){
 			bgProcess = waitpid(WAIT_ANY, &status, WNOHANG | WUNTRACED);
 			if(bgProcess != 0 && bgProcess != -1){
@@ -23,6 +25,8 @@ int main(){
 				break;			
 			}
 		}
+		//===========================
+		//Prompt
 		fprintf(stdout, ": ");
 		fgets(userInput, 50, stdin);
 		userInput[strlen(userInput)-1] = '\0';
@@ -45,7 +49,16 @@ int main(){
 		}else if(child.pid == 0 && child.status == -1){//this would happen execvp fails
 			return 1;
 		}
-
+		//free up the memory that is allocated to myArgu.args and myArgu.args[i] in function inputAnalyzer
+		if(myArgu.args != NULL){
+			i = 0;
+			while(myArgu.args[i] != NULL){
+				free(myArgu.args[i]);
+				i++;
+			}
+			free(myArgu.args);
+		}
+		//==============================
 	}while(child.status != 4);
 
 	return 0;	
