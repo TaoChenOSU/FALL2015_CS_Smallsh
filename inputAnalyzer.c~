@@ -21,6 +21,7 @@ void inputAnalyzer(char *userInput, struct argument *myArgu){
 	if(userInput[0] == '#'){
 		myArgu->ground = -1;
 		myArgu->args = NULL;
+		fprintf(stdout, "Here5\n");
 		return;
 	}
 	//======================

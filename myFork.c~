@@ -34,6 +34,7 @@ struct childStatus myFork(struct argument myArgu){
 			//execute()
 			execvp(myArgu.args[0], myArgu.args);
 			//if execvp fails
+			returnVal.pid = -1;
 			returnVal.status = -1;
 			//Error message
 			while(myArgu.args[i]!=NULL){

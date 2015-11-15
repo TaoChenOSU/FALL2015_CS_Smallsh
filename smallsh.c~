@@ -72,6 +72,6 @@ void displayStatus(int status){
 	}else if(WIFSIGNALED(status)){
 		fprintf(stdout, "Terminated by Signal %d\n", WTERMSIG(status));
 	}
-	//fprintf(stdout, "Status: %d\n", status);
+	fprintf(stdout, "Status: %d\n", status);
 }
 
