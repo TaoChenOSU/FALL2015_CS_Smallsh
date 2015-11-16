@@ -38,9 +38,9 @@ void inputAnalyzer(char *userInput, struct argument *myArgu){
 			}						
 		}
 		//Allocate memory
-		args = malloc(sizeof(char*) * (argc + 1));			//one more to put the NULL terminator at the end
+		args = malloc(sizeof(char*) * (argc + 1));			//one more to put the NULL terminator at the end, will be freed up in main
 		for(i = 0; i < argc; i++){
-			args[i] = malloc(sizeof(char) * 150);		//Maximum 150 char long each argument
+			args[i] = malloc(sizeof(char) * 150);		//Maximum 150 char long each argument, will be freed up in main
 		}		
 		//====================================
 

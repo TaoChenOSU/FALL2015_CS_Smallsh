@@ -28,7 +28,7 @@ int main(){
 		//===========================
 		//Prompt
 		fprintf(stdout, ": ");
-		fgets(userInput, 50, stdin);
+		fgets(userInput, 2048, stdin);
 		userInput[strlen(userInput)-1] = '\0';
 		inputAnalyzer(userInput, &myArgu);		
 		child = myFork(myArgu);
@@ -50,12 +50,14 @@ int main(){
 			return 1;
 		}
 		//free up the memory that is allocated to myArgu.args and myArgu.args[i] in function inputAnalyzer
-		i = 0;
-		while(myArgu.args[i]){
-			free(myArgu.args[i]);
-			i++;
+		if(myArgu.args != NULL){
+			i = 0;
+			while(myArgu.args[i] != NULL){
+				free(myArgu.args[i]);
+				i++;
+			}
+			free(myArgu.args);
 		}
-		free(myArgu.args);
 		//==============================
 	}while(child.status != 4);
 

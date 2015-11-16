@@ -25,3 +25,5 @@ struct childStatus myFork(struct argument myArgu);
 void changeDir(struct argument myArgu);
 
 void displayStatus(int status);
+
+void ctrlCHandler(int sig);

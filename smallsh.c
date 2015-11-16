@@ -5,6 +5,8 @@
 
 #include "myLibrary.h"
 
+struct childStatus childSIG;						//Global variable used in signal handler
+
 int main(){
 	char userInput[2048];
 	struct argument myArgu;
@@ -12,7 +14,11 @@ int main(){
 	int status;						//status of the last child process
 	pid_t bgProcess;
 	int i;							//counter
+	childSIG.pid = 0;
+	childSIG.status = 0;
 
+	signal(SIGINT, ctrlCHandler);
+	
 	do{
 		//check any stopped or terminated bg processes
 		while(1){
@@ -28,10 +34,13 @@ int main(){
 		//===========================
 		//Prompt
 		fprintf(stdout, ": ");
-		fgets(userInput, 50, stdin);
+		fgets(userInput, 2048, stdin);
 		userInput[strlen(userInput)-1] = '\0';
 		inputAnalyzer(userInput, &myArgu);		
 		child = myFork(myArgu);
+		//store the pid and status in this variable so that the signla handler can use it
+		childSIG.pid = child.pid;
+		childSIG.status = child.pid;
 
 		if(child.pid > 0 && child.status == 0){		//It's a child process and it's foreground
 			waitpid(child.pid, &status, 0);
@@ -63,7 +72,7 @@ int main(){
 
 	return 0;	
 }
-
+//======================================
 void changeDir(struct argument myArgu){
 	int i=0;						//Counter
 	//Figure out if there is too many arguments for cd
@@ -82,7 +91,7 @@ void changeDir(struct argument myArgu){
 		}	
 	}
 }
-
+//======================================
 void displayStatus(int status){
 	if(WIFEXITED(status)){
 		fprintf(stdout, "Exit Status: %d\n", WEXITSTATUS(status));
@@ -91,4 +100,13 @@ void displayStatus(int status){
 	}
 	//fprintf(stdout, "Status: %d\n", status);
 }
+//======================================
+void ctrlCHandler(int sig){
+	signal(sig, SIG_IGN);
+	if(childSIG.pid > 0 && childSIG.status == 0){
+		kill(childSIG.pid, 15);
+	}
+	signal(SIGINT, ctrlCHandler);
+}
+
 
